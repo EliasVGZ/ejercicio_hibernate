@@ -3,10 +3,10 @@
  */
 
 package com.mycompany.hibernatefinal.main;
+import com.mycompany.hibernatefinal.model.Autores;
 import com.mycompany.hibernatefinal.util.HibernateUtil;
-import com.mycompany.hibernatefinal.model.Employee;
 import org.hibernate.Session;
-import java.util.Date;
+
 /**
  *
  * @author a22alejandrofc
@@ -14,20 +14,20 @@ import java.util.Date;
 public class HibernateFinal {
 
     public static void main(String[] args) {
-        Employee emp = new Employee();
-		emp.setName("Pankaj");
-		emp.setRole("CEO");
-		emp.setInsertTime(new Date());
+        Autores aut = new Autores();
+		aut.setNombre("Elias");
+		aut.setDniAutor(Long.valueOf("12312345"));
+		aut.setNacionalidad("España");
 		
 		//Get Session
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		//start transaction
 		session.beginTransaction();
 		//Save the Model object
-		session.save(emp);
+		session.save(aut);
 		//Commit transaction
 		session.getTransaction().commit();
-		System.out.println("Employee ID="+emp.getId());
+		System.out.println("Nombre: "+aut.getNombre());
 		
 		//terminate session factory, otherwise program won't end
 		HibernateUtil.getSessionFactory().close();

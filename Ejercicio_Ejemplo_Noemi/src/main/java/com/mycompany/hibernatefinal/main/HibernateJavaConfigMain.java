@@ -16,9 +16,6 @@ import org.hibernate.SessionFactory;
 public class HibernateJavaConfigMain {
     public static void main(String[] args) {
 		Empleados1 emp = new Empleados1();
-		emp.setName("Lisa");
-		emp.setRole("Manager");
-		emp.setInsertTime(new Date());
 		
 		//Get Session
 		SessionFactory sessionFactory = HibernateUtil.getSessionJavaConfigFactory();
@@ -29,7 +26,6 @@ public class HibernateJavaConfigMain {
 		session.save(emp);
 		//Commit transaction
 		session.getTransaction().commit();
-		System.out.println("Employee ID="+emp.getId());
 		
 		//terminate session factory, otherwise program won't end
 		sessionFactory.close();

@@ -16,9 +16,8 @@ import org.hibernate.SessionFactory;
 public class HibernateAnnotationMain {
     public static void main(String[] args) {
 		Empleados1 emp = new Empleados1();
-		emp.setName("Elias");
-		emp.setRole("Viera");
-		emp.setInsertTime(new Date());
+		emp.setApellido("Fernandez");
+		emp.setComision(123.34F);
 		
 		//Get Session
 		SessionFactory sessionFactory = HibernateUtil.getSessionAnnotationFactory();
@@ -29,7 +28,7 @@ public class HibernateAnnotationMain {
 		session.save(emp);
 		//Commit transaction
 		session.getTransaction().commit();
-		System.out.println("Employee ID="+emp.getId());
+		System.out.println("Employee Numero="+emp.getEmp_no());
 		
 		//terminate session factory, otherwise program won't end
 		sessionFactory.close();

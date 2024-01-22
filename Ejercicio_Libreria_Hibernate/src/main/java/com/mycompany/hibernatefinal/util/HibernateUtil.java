@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.hibernatefinal.util;
-import com.mycompany.hibernatefinal.model.Employee1;
 import java.util.Properties;
 
 import org.hibernate.SessionFactory;
@@ -75,7 +74,7 @@ public class HibernateUtil {
 		//Create Properties, can be read from property files too
 		Properties props = new Properties();
 		props.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-		props.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/empleados");
+		props.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/LibrosAutoresHibernate");
 		props.put("hibernate.connection.username", "root");
 		props.put("hibernate.connection.password", "");
 		props.put("hibernate.current_session_context_class", "thread");
@@ -85,7 +84,7 @@ public class HibernateUtil {
 		//we can set mapping file or class with annotation
 		//addClass(Employee1.class) will look for resource
 		// com/journaldev/hibernate/model/Employee1.hbm.xml (not good)
-		configuration.addAnnotatedClass(Employee1.class);
+		//configuration.addAnnotatedClass(Employee1.class);
 		
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
     	System.out.println("Hibernate Java Config serviceRegistry created");

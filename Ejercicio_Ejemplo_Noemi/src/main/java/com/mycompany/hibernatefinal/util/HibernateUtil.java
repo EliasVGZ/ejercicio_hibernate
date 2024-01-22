@@ -75,7 +75,7 @@ public class HibernateUtil {
 		//Create Properties, can be read from property files too
 		Properties props = new Properties();
 		props.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-		props.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/empleados");
+		props.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/EJEMPLO");
 		props.put("hibernate.connection.username", "root");
 		props.put("hibernate.connection.password", "");
 		props.put("hibernate.current_session_context_class", "thread");
@@ -99,7 +99,8 @@ public class HibernateUtil {
             throw new ExceptionInInitializerError(ex);
         }
 	}
-    
+
+
 	public static SessionFactory getSessionFactory() {
 		if(sessionFactory == null) sessionFactory = buildSessionFactory();
         return sessionFactory;
