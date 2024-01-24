@@ -16,9 +16,9 @@ public class HibernateFinal {
     public static void main(String[] args) {
         Autores aut = new Autores();
 		aut.setNombre("Elias");
-		aut.setDniAutor(Long.valueOf("12312345"));
+		aut.setDniAutor("12312323L");
 		aut.setNacionalidad("España");
-		
+
 		//Get Session
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		//start transaction
@@ -28,7 +28,7 @@ public class HibernateFinal {
 		//Commit transaction
 		session.getTransaction().commit();
 		System.out.println("Nombre: "+aut.getNombre());
-		
+
 		//terminate session factory, otherwise program won't end
 		HibernateUtil.getSessionFactory().close();
     }

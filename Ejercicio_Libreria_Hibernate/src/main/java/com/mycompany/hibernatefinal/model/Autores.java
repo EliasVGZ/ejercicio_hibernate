@@ -6,14 +6,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="Autores",
-        uniqueConstraints={@UniqueConstraint(columnNames={"DNIAUTOR"})})
+@Table(name="Autores", uniqueConstraints={@UniqueConstraint(columnNames={"DNIAUTOR"})})
 public class Autores {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="DNIAUTOR", nullable=false, unique=true, length=11)
-    private Long dniAutor;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="DNIAUTOR", nullable=false, unique=true)
+    private String dniAutor;
 
     @Column(name="NOMBRE", length=20, nullable=true)
     private String nombre;
@@ -21,19 +20,12 @@ public class Autores {
     @Column(name="NACIONALIDAD", length=20, nullable=true)
     private String nacionalidad;
 
-    // Relación 1-N con Libros
-    @OneToMany(mappedBy = "autor")
-    private Set<Libros> libros = new HashSet<>();
 
-    // Relación 1-1 con Telefonos
-    @OneToOne(mappedBy = "autor", cascade = CascadeType.ALL)
-    private Telefono telefono;
-
-    public Long getDniAutor() {
+    public String getDniAutor() {
         return dniAutor;
     }
 
-    public void setDniAutor(Long dniAutor) {
+    public void setDniAutor(String dniAutor) {
         this.dniAutor = dniAutor;
     }
 
@@ -52,4 +44,12 @@ public class Autores {
     public void setNacionalidad(String nacionalidad) {
         this.nacionalidad = nacionalidad;
     }
+
+    // Relación 1-N con Libros
+    @OneToMany(mappedBy = "autor")
+    private Set<Libros> libros = new HashSet<>();
+
+    // Relación 1-1 con Telefonos
+    @OneToOne(mappedBy = "autor", cascade = CascadeType.ALL)
+    private Telefono telefono;
 }

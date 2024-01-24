@@ -21,7 +21,7 @@ import javax.persistence.UniqueConstraint;
 	   uniqueConstraints={@UniqueConstraint(columnNames={"ID"})})
 
 public class Employee1 {
-    @Id
+    //@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", nullable=false, unique=true, length=11)
 	private int id;
