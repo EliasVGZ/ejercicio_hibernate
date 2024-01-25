@@ -2,17 +2,18 @@ package com.mycompany.hibernatefinal.model;
 
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
-@Table(name="Autores", uniqueConstraints={@UniqueConstraint(columnNames={"DNIAUTOR"})})
+@Table(name="AUTORES", uniqueConstraints={@UniqueConstraint(columnNames={"DNIAUTOR"})})
 public class Autores {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="DNIAUTOR", nullable=false, unique=true)
     private String dniAutor;
+
 
     @Column(name="NOMBRE", length=20, nullable=true)
     private String nombre;
@@ -20,6 +21,35 @@ public class Autores {
     @Column(name="NACIONALIDAD", length=20, nullable=true)
     private String nacionalidad;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Libros> libros;
+
+    public Autores(String dniAutor, String nombre, String nacionalidad, List<Libros> libros) {
+        this.dniAutor = dniAutor;
+        this.nombre = nombre;
+        this.nacionalidad = nacionalidad;
+        this.libros = libros;
+    }
+
+
+    public Autores(String dniAutor, String nombre, String nacionalidad) {
+        this.dniAutor = dniAutor;
+        this.nombre = nombre;
+        this.nacionalidad = nacionalidad;
+    }
+
+    public void addLibro(Libros libro) {
+        if (libros == null) {
+            libros = new ArrayList<>();
+        }
+        libros.add(libro);
+    }
+
+
+
+    public Autores() {
+
+    }
 
     public String getDniAutor() {
         return dniAutor;
@@ -45,11 +75,11 @@ public class Autores {
         this.nacionalidad = nacionalidad;
     }
 
-    // Relación 1-N con Libros
-    @OneToMany(mappedBy = "autor")
-    private Set<Libros> libros = new HashSet<>();
+    public List<Libros> getLibros() {
+        return libros;
+    }
 
-    // Relación 1-1 con Telefonos
-    @OneToOne(mappedBy = "autor", cascade = CascadeType.ALL)
-    private Telefono telefono;
+    public void setLibros(List<Libros> libros) {
+        this.libros = libros;
+    }
 }

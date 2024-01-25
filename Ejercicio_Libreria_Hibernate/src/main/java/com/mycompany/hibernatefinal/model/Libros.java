@@ -21,11 +21,14 @@ public class Libros {
     @Column(name="PRECIO", length=20, nullable=true)
     private String precio;
 
-    // Relación 1-N con Autores
-    @ManyToOne
-    @JoinColumn(name = "DNIAUTOR")
-    private Autores autor;
+    public Libros(String titulo, String precio) {
+        this.titulo = titulo;
+        this.precio = precio;
+    }
 
+    public Libros() {
+
+    }
 
     public int getIdLibro() {
         return idLibro;
