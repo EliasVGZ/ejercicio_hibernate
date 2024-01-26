@@ -21,7 +21,7 @@ public class Autores {
     @Column(name="NACIONALIDAD", length=20, nullable=true)
     private String nacionalidad;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Libros> libros;
 
     public Autores(String dniAutor, String nombre, String nacionalidad, List<Libros> libros) {

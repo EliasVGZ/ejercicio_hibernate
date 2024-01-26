@@ -1,6 +1,7 @@
 package com.mycompany.hibernatefinal.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Telefonos")
@@ -20,13 +21,14 @@ public class Telefono {
 
     // Constructores, getters y setters
 
-    public Telefono() {
-    }
 
     public Telefono(String dniAutor, String numeroTelefono, Autores autor) {
         this.dniAutor = dniAutor;
         this.numeroTelefono = numeroTelefono;
         this.autor = autor;
+    }
+
+    public Telefono() {
     }
 
     public String getDniAutor() {

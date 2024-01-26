@@ -17,6 +17,54 @@ public class AutorDAO {
         this.session = session;
     }
 
+    public void visualizarAutoresConLibros() {
+        try {
+            // se consulta autores con sus libros, solo si tiene libros, sino no aparece
+            Query query = session.createQuery("SELECT DISTINCT a FROM Autores a LEFT JOIN FETCH a.libros WHERE SIZE(a.libros) > 0");
+            List<Autores> autores = query.list();
+
+            // Mostrar la información de los autores y sus libros
+            for (Autores autor : autores) {
+                System.out.println("Autor: " + autor.getNombre());
+
+                for (Libros libro : autor.getLibros()) {
+                    System.out.println("  Libro: " + libro.getTitulo());
+                }
+
+                System.out.println();  // Línea en blanco entre autores
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void eliminarAutorPorDNI(String dni) {
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+
+            Query query = session.createQuery("FROM Autores WHERE dniAutor = :dni");
+            query.setParameter("dni", dni);
+            Autores autor = (Autores) query.uniqueResult();
+
+
+            if (autor != null) {
+                session.delete(autor);
+                transaction.commit();
+                System.out.println("Autor eliminado correctamente");
+            } else {
+                System.out.println("No se encontró un autor con el DNI: " + dni);
+            }
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
     public List<Libros> obtenerLibrosDeAutorPorNombre(String nombreAutor) {
         try {
             session.beginTransaction();

@@ -12,8 +12,7 @@ import org.hibernate.cfg.Configuration;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-
+import java.util.List;
 
 
 public class Main {
@@ -53,7 +52,7 @@ public class Main {
 
                         switch (subopcion) {
                             case "a":
-                                Autores nuevoAutor = new Autores();
+
                                 String dni;
                                 do {
                                     System.out.println("Dni del autor: ");
@@ -68,22 +67,25 @@ public class Main {
                                 System.out.println("Nacionalidad ");
                                 String nac = br.readLine();
 
-                                nuevoAutor.setDniAutor(dni);
-                                nuevoAutor.setNombre(nombre);
-                                nuevoAutor.setNacionalidad(nac);
+                                Autores nuevoAutor = new Autores(dni, nombre, nac);
+
+
 
                                 // Preguntar al usuario si quiere añadir un libro al autor
                                 System.out.println("¿Quieres añadir un libro al autor? (Si/No)");
                                 String respuesta = br.readLine().toLowerCase();
 
                                 if (respuesta.equals("si") || respuesta.equals("sí")) {
-                                    Libros nuevoLibro = new Libros();
+
                                     System.out.println("Título del libro:");
-                                    nuevoLibro.setTitulo(br.readLine());
+                                    String titulo = br.readLine();
                                     System.out.println("Precio del libro:");
-                                    nuevoLibro.setPrecio(br.readLine());
+                                    String precio = br.readLine();
+
+                                    Libros nuevoLibro = new Libros(titulo, precio);
 
                                     // Añadir el libro al autor
+
                                     nuevoAutor.addLibro(nuevoLibro);
                                 }
 
@@ -116,13 +118,17 @@ public class Main {
 
                         switch (subopcionBorrado) {
                             case "a":
-                                // Código para borrado de libro
-                                // ...
+                                System.out.println("Inserte Titulo del libro que quieres eliminar");
+                                String nomLibro = br.readLine();
+                                librosDAO.eliminarLibroPorTitulo(nomLibro);
                                 break;
 
                             case "b":
-                                // Código para borrado de autor
-                                // ...
+                                System.out.println("Eliminar Autor");
+                                System.out.println("Escribe dni del autor");
+                                String dniaut = br.readLine();
+
+                                autorDAO.eliminarAutorPorDNI(dniaut);
                                 break;
 
                             default:
@@ -155,8 +161,7 @@ public class Main {
                                 break;
 
                             case "d":
-                                // Código para visualización de todos los autores con sus libros
-                                // ...
+                                autorDAO.visualizarAutoresConLibros();
                                 break;
 
                             default:

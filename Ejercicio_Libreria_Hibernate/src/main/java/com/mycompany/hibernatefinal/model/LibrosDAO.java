@@ -16,18 +16,45 @@ public class LibrosDAO {
     }
 
 
+    public void eliminarLibroPorTitulo(String titulo) {
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+
+            Query query = session.createQuery("FROM Libros WHERE titulo = :titulo");
+            query.setParameter("titulo", titulo);
+            Libros libro = (Libros) query.uniqueResult();
+
+            // Si se encuentra el libro, se elimina
+            if (libro != null) {
+                session.delete(libro);
+                transaction.commit();
+                System.out.println("Libro eliminado correctamente");
+            } else {
+                System.out.println("No se encontró un libro con el título: " + titulo);
+            }
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+
     public List<Libros> findAllBooks() {
         try {
             session.beginTransaction();
 
-            // Crear la consulta HQL para obtener todos los libros
+
             String hql = "FROM Libros";
             Query query = session.createQuery(hql);
 
-            // Ejecutar la consulta y obtener la lista de libros
+
             List<Libros> libros = query.list();
 
-            // Imprimir resultados (puedes adaptar esto según tus necesidades)
+
             if (libros.isEmpty()) {
                 System.out.println("No se encontraron libros en la base de datos.");
             } else {
@@ -56,7 +83,7 @@ public class LibrosDAO {
             Query query = session.createQuery(hql);
             query.setParameter("titulo", titulo);
 
-            // Ejecutar la consulta y obtener la lista de libros
+
             List<Libros> libros = query.list();
 
 
