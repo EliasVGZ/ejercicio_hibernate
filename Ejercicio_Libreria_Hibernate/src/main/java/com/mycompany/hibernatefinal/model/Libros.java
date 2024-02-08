@@ -2,6 +2,7 @@ package com.mycompany.hibernatefinal.model;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,6 +39,13 @@ public class Libros {
         this.titulo = titulo;
         this.precio = precio;
         this.autores = autores;
+    }
+
+    public void addAutor(Autores autor) {
+        if (autores == null) {
+            autores = new ArrayList<>();
+        }
+        autores.add(autor);
     }
 
     public int getIdLibro() {

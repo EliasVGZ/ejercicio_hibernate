@@ -4,9 +4,7 @@ import org.hibernate.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
+import java.util.Collections;
 import java.util.List;
 
 public class AutorDAO {
@@ -17,13 +15,40 @@ public class AutorDAO {
         this.session = session;
     }
 
-    public void visualizarAutoresConLibros() {
+
+
+    public void agregarLibroAAutorExistente(String dniAutor, Libros nuevoLibro) {
         try {
-            // se consulta autores con sus libros, solo si tiene libros, sino no aparece
+            session.beginTransaction();
+
+            Autores autor = (Autores) session.get(Autores.class, dniAutor);
+            if (autor != null) {
+                autor.getLibros().add(nuevoLibro);
+                session.saveOrUpdate(autor);
+                System.out.println("Libro añadido al autor existente.");
+            } else {
+                System.out.println("No se encontró un autor con el DNI: " + dniAutor);
+            }
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+
+    public void visualizarAutoresConLibros() {
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
             Query query = session.createQuery("SELECT DISTINCT a FROM Autores a LEFT JOIN FETCH a.libros WHERE SIZE(a.libros) > 0");
             List<Autores> autores = query.list();
 
-            // Mostrar la información de los autores y sus libros
+
             for (Autores autor : autores) {
                 System.out.println("Autor: " + autor.getNombre());
 
@@ -31,12 +56,19 @@ public class AutorDAO {
                     System.out.println("  Libro: " + libro.getTitulo());
                 }
 
-                System.out.println();  // Línea en blanco entre autores
+                System.out.println();
             }
+
+            transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         }
     }
+
+
 
 
     public void eliminarAutorPorDNI(String dni) {
@@ -44,13 +76,17 @@ public class AutorDAO {
         try {
             transaction = session.beginTransaction();
 
-
             Query query = session.createQuery("FROM Autores WHERE dniAutor = :dni");
             query.setParameter("dni", dni);
             Autores autor = (Autores) query.uniqueResult();
 
-
             if (autor != null) {
+                // primero eliminar las relaciones asociadas con el autor
+                Query deleteQuery = session.createQuery("DELETE FROM Libros l WHERE :autor MEMBER OF l.autores");
+                deleteQuery.setParameter("autor", autor);
+                deleteQuery.executeUpdate();
+
+                // elimina al autor
                 session.delete(autor);
                 transaction.commit();
                 System.out.println("Autor eliminado correctamente");
@@ -65,7 +101,8 @@ public class AutorDAO {
         }
     }
 
-    public List<Libros> obtenerLibrosDeAutorPorNombre(String nombreAutor) {
+
+    public void obtenerLibrosDeAutorPorNombre(String nombreAutor) {
         try {
             session.beginTransaction();
 
@@ -91,17 +128,23 @@ public class AutorDAO {
 
             session.getTransaction().commit();
 
-            return libros;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error al obtener los libros del autor.");
             session.getTransaction().rollback();
-            return null;
         }
     }
 
+    public List<Autores> obtenerAutores() {
 
-
+        try {
+            Query query = session.createQuery("FROM Autores");
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();  //lista vacia en caso de errror
+        }
+    }
 
 
     public void insertarAutor(Autores autor) {

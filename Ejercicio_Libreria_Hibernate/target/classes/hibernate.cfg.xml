@@ -60,7 +60,6 @@
 		<!-- Indicamos la clase que vamos a maper indicandole la ruta en la que se encuentra en nuestro proyecto -->
 		<mapping class="com.mycompany.hibernatefinal.model.Autores"/>
 		<mapping class="com.mycompany.hibernatefinal.model.Libros"/>
-		<mapping class="com.mycompany.hibernatefinal.model.Telefono"/>
 		<!--********************************************************************* -->
 
 
