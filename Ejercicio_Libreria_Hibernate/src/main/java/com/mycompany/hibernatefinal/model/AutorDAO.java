@@ -44,7 +44,7 @@ public class AutorDAO {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-
+            //se visualiza si un autor tiene algun libro
             Query query = session.createQuery("SELECT DISTINCT a FROM Autores a LEFT JOIN FETCH a.libros WHERE SIZE(a.libros) > 0");
             List<Autores> autores = query.list();
 
